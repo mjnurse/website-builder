@@ -1,0 +1,4 @@
+pkill -f "python3 -m http.server"
+rm -rf site/*
+python3 build.py -s ../mjnurse.github.io/ 
+python3 -m http.server --directory site 8000 &
