@@ -2,7 +2,7 @@
 
 echo website-builder
 echo ---------------
-if [[ -n "$(git status)" ]]; then
+if [[ -n "$(git status --porcelain)" ]]; then
     git status
     read -p "Push website-builder changes to GitHub? [yN] " choice
     if [[ "${choice^}" == "Y" ]]; then
