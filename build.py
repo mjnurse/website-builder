@@ -457,9 +457,20 @@ if __name__ == '__main__':
     parser.add_argument('--templates', '-t', default='templates', help='Templates directory')
     args = parser.parse_args()
     
-    # Clean output directory before building
+    # Clean output directory contents before building (preserve directory and .git)
     import shutil
     if os.path.isdir(args.out):
-        shutil.rmtree(args.out)
+        for item in os.listdir(args.out):
+            item_path = os.path.join(args.out, item)
+            # Skip .git directory to preserve git repo
+            if item == '.git':
+                continue
+            try:
+                if os.path.isfile(item_path) or os.path.islink(item_path):
+                    os.unlink(item_path)
+                elif os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
+            except Exception as e:
+                print(f'Warning: Could not delete {item_path}: {e}')
     
     build(args.src, args.out, args.templates)
