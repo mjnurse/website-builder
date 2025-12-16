@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python build.py --src ../mjnurse-website --out ../mjnurse.github.io

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo website-builder
+echo ---------------
+if [[ -n "$(git status)" ]]; then
+    git status
+    read -p "Push website-builder changes to GitHub? [yN] " choice
+    if [[ "${choice^}" == "Y" ]]; then
+        git add .
+        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if [[ -z "$commit_message" ]]; then
+            commit_message="various"
+        fi
+        git commit -m "$commit_message"
+        git push origin main
+        echo "Changes pushed to GitHub."
+    fi
+else
+    echo "No changes to push."
+fi
