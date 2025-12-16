@@ -392,9 +392,8 @@ def build(src='content', out='site', templates_dir='templates'):
 
     # copy favicon
     import shutil
-    # Get the directory where build.py is located, then go up one level to find MjN.png
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    favicon_src = os.path.join(os.path.dirname(script_dir), 'MjN.png')
+    # Read MjN.png from static directory
+    favicon_src = os.path.join(static_src, 'MjN.png')
     if os.path.isfile(favicon_src):
         favicon_dst = os.path.join(out, 'favicon.png')
         shutil.copy2(favicon_src, favicon_dst)
