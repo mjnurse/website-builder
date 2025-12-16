@@ -18,3 +18,45 @@ if [[ -n "$(git status --porcelain)" ]]; then
 else
     echo "No changes to push."
 fi
+
+cd ../mjnurse-website || exit
+
+echo mjnurse-website
+echo ---------------
+if [[ -n "$(git status --porcelain)" ]]; then
+    git status
+    read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+    if [[ "${choice^}" == "Y" ]]; then
+        git add .
+        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if [[ -z "$commit_message" ]]; then
+            commit_message="various"
+        fi
+        git commit -m "$commit_message"
+        git push origin main
+        echo "Changes pushed to GitHub."
+    fi
+else
+    echo "No changes to push."
+fi
+
+cd ../mjnurse.github.io || exit
+
+echo mjnurse.github.io
+echo -----------------
+if [[ -n "$(git status --porcelain)" ]]; then
+    git status
+    read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+    if [[ "${choice^}" == "Y" ]]; then
+        git add .
+        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if [[ -z "$commit_message" ]]; then
+            commit_message="various"
+        fi
+        git commit -m "$commit_message"
+        git push origin main
+        echo "Changes pushed to GitHub."
+    fi
+else
+    echo "No changes to push."
+fi
