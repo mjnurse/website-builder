@@ -258,11 +258,22 @@ def build(src='content', out='site', templates_dir='templates'):
         
         direct_pages, subsections = group_by_subsection(pages_in_sec)
         
+        # Separate script_ pages from regular pages
+        regular_pages = []
+        script_pages = []
+        for p in direct_pages:
+            # Check if the filename (not the title) starts with "script_"
+            filename = os.path.basename(p['path']).lower()
+            if filename.startswith('script_'):
+                script_pages.append(p)
+            else:
+                regular_pages.append(p)
+        
         # Build section index content with section title
         section_display = section_info[section]['display']
         index_content = f'<h1>{section_display.replace("_", " ")}</h1>\n' + section_intro
 
-        # Combine subsections and direct pages in a single numbered list
+        # Combine subsections and regular pages in a single numbered list
         all_items = []
         
         # Add subsections first
@@ -275,8 +286,8 @@ def build(src='content', out='site', templates_dir='templates'):
                 'title': subsec_name
             })
         
-        # Add direct pages
-        for p in direct_pages:
+        # Add regular pages
+        for p in regular_pages:
             all_items.append({
                 'type': 'page',
                 'url': f'/{p["url"]}',
@@ -289,6 +300,15 @@ def build(src='content', out='site', templates_dir='templates'):
             for i, item in enumerate(all_items, 1):
                 icon_html = '&nbsp;&nbsp;<span class="subsection-icon">📁</span>' if item['type'] == 'subsection' else ''
                 index_content += f'  <li><a href="{item["url"]}" data-number="{i}"><span class="page-number">{i}</span>{item["title"].replace("_", " ")}{icon_html}</a></li>\n'
+            index_content += '</ul>\n'
+        
+        # Add Scripts section if there are script pages
+        if script_pages:
+            index_content += '\n<h2>Scripts</h2>\n<ul class="page-list">\n'
+            # Continue numbering from where regular items left off
+            start_num = len(all_items) + 1
+            for i, p in enumerate(script_pages, start_num):
+                index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
             index_content += '</ul>\n'
         
         index_path = os.path.join(out, section_url, 'index.html')
@@ -310,10 +330,29 @@ def build(src='content', out='site', templates_dir='templates'):
                 fm, body = extract_frontmatter(content)
                 subsec_intro = markdown.markdown(body, extensions=['fenced_code', 'codehilite', 'tables', 'toc', 'attr_list', 'md_in_html'])
             
+            # Separate script_ pages from regular pages in subsection
+            subsec_regular = []
+            subsec_scripts = []
+            for p in subsec_pages:
+                filename = os.path.basename(p['path']).lower()
+                if filename.startswith('script_'):
+                    subsec_scripts.append(p)
+                else:
+                    subsec_regular.append(p)
+            
             subsec_content = f'<h1>{subsec_name.replace("_", " ")}</h1>\n' + subsec_intro + '\n<ul class="page-list">\n'
-            for i, p in enumerate(subsec_pages, 1):
+            for i, p in enumerate(subsec_regular, 1):
                 subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
             subsec_content += '</ul>\n'
+            
+            # Add Scripts section if there are script pages in subsection
+            if subsec_scripts:
+                subsec_content += '\n<h2>Scripts</h2>\n<ul class="page-list">\n'
+                # Continue numbering from where regular pages left off
+                start_num = len(subsec_regular) + 1
+                for i, p in enumerate(subsec_scripts, start_num):
+                    subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
+                subsec_content += '</ul>\n'
             
             subsec_out_path = os.path.join(out, section_url, subsec_url, 'index.html')
             os.makedirs(os.path.dirname(subsec_out_path), exist_ok=True)
