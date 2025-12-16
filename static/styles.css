@@ -106,6 +106,7 @@ a {
 
 p {
   margin: 1em 0;
+  line-height: 1.8em;
 }
 
 /* Style for content lists (bullets and ordered) */
