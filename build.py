@@ -376,6 +376,10 @@ def build(src='content', out='site', templates_dir='templates'):
     with open(os.path.join(out, 'index.html'), 'w', encoding='utf-8') as fh:
         fh.write(index_html)
 
+    # Create .nojekyll file for GitHub Pages
+    with open(os.path.join(out, '.nojekyll'), 'w') as fh:
+        fh.write('')
+
     # copy static
     static_src = os.path.join(os.path.dirname(templates_dir), 'static')
     static_src = os.path.normpath(static_src)
