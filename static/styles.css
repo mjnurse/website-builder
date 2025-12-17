@@ -115,6 +115,20 @@ input {
     border-radius: 4px;
 }
 
+td, th {
+  border-radius: 2px;
+  padding: 4px;
+  
+}
+td {
+  background: #f0f0f4;
+}
+
+th {
+  background: #2978b5;
+  color: white;
+}
+
 /* Style for content lists (bullets and ordered) */
 .article-body ul {
   list-style-type: disc;
