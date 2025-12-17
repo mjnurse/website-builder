@@ -435,7 +435,13 @@ main {
   transition: background 0.18s ease, transform 0.12s ease;
 }
 
-.page-list a:hover,
+/* Hover only applies when keyboard navigation is NOT active */
+.page-list:not(.keyboard-nav-active) a:hover {
+  background: var(--clr-primary);
+  color: var(--clr-bg);
+}
+
+/* Highlighted state always applies (for keyboard navigation) */
 .page-list a.highlighted {
   background: var(--clr-primary);
   color: var(--clr-bg);
@@ -450,7 +456,8 @@ main {
   color: var(--clr-fg-alt);
 }
 
-.page-list a:hover .page-number,
+/* Hover number styling only when keyboard navigation is NOT active */
+.page-list:not(.keyboard-nav-active) a:hover .page-number,
 .page-list a.highlighted .page-number {
   color: var(--clr-bg);
 }

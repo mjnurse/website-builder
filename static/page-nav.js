@@ -7,6 +7,16 @@
   let currentIndex = -1;
   let numberBuffer = '';
   let numberTimeout = null;
+  let keyboardNavActive = false;
+  
+  function setKeyboardNavMode(active) {
+    keyboardNavActive = active;
+    if (active) {
+      pageList.classList.add('keyboard-nav-active');
+    } else {
+      pageList.classList.remove('keyboard-nav-active');
+    }
+  }
   
   function clearHighlight() {
     links.forEach(link => link.classList.remove('highlighted'));
@@ -14,6 +24,7 @@
   
   function highlightLink(index) {
     clearHighlight();
+    setKeyboardNavMode(true);
     if (index >= 0 && index < links.length) {
       currentIndex = index;
       links[index].classList.add('highlighted');
@@ -96,6 +107,15 @@
     else if (e.key >= '0' && e.key <= '9') {
       e.preventDefault();
       handleNumberKey(e.key);
+    }
+  });
+  
+  // Detect mouse movement to exit keyboard navigation mode
+  pageList.addEventListener('mousemove', () => {
+    if (keyboardNavActive) {
+      setKeyboardNavMode(false);
+      clearHighlight();
+      currentIndex = -1;
     }
   });
 })();
