@@ -210,7 +210,7 @@ def build(src='content', out='site', templates_dir='templates'):
         
         # Add title as h1 at the top if it's from frontmatter
         if 'title' in fm:
-            html = f'<h1>{fm["title"]}</h1>\n' + html
+            html = f'<h1><a href="#" data-clipboard="{p["path"].replace("..", "code ~/mjnurse")}">{fm["title"]}</a></h1>\n' + html
         
         # Insert TOC after title if requested
         if toc_html:

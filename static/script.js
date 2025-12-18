@@ -97,3 +97,18 @@ const scrollUp = () => {
 }
 
 document.addEventListener('scroll', scrollUp)
+
+// clipboard.js
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("a[data-clipboard]").forEach(link => {
+        link.addEventListener("click", async (e) => {
+            e.preventDefault(); // prevent navigation
+            const text = link.getAttribute("data-clipboard");
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (err) {
+                console.error("Clipboard copy failed", err);
+            }
+        });
+    });
+});
