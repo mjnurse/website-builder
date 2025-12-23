@@ -1,9 +1,13 @@
 // Page list navigation with numbers and arrow keys
 (function() {
-  const pageList = document.querySelector('.page-list');
-  if (!pageList) return;
+  const pageLists = document.querySelectorAll('.page-list');
+  if (!pageLists.length) return;
   
-  const links = Array.from(pageList.querySelectorAll('a[data-number]'));
+  // Collect links from ALL page-list elements (including Scripts section)
+  const links = [];
+  pageLists.forEach(pageList => {
+    links.push(...Array.from(pageList.querySelectorAll('a[data-number]')));
+  });
   let currentIndex = -1;
   let numberBuffer = '';
   let numberTimeout = null;
@@ -11,11 +15,13 @@
   
   function setKeyboardNavMode(active) {
     keyboardNavActive = active;
-    if (active) {
-      pageList.classList.add('keyboard-nav-active');
-    } else {
-      pageList.classList.remove('keyboard-nav-active');
-    }
+    pageLists.forEach(pl => {
+      if (active) {
+        pl.classList.add('keyboard-nav-active');
+      } else {
+        pl.classList.remove('keyboard-nav-active');
+      }
+    });
   }
   
   function clearHighlight() {
@@ -111,11 +117,13 @@
   });
   
   // Detect mouse movement to exit keyboard navigation mode
-  pageList.addEventListener('mousemove', () => {
-    if (keyboardNavActive) {
-      setKeyboardNavMode(false);
-      clearHighlight();
-      currentIndex = -1;
-    }
+  pageLists.forEach(pl => {
+    pl.addEventListener('mousemove', () => {
+      if (keyboardNavActive) {
+        setKeyboardNavMode(false);
+        clearHighlight();
+        currentIndex = -1;
+      }
+    });
   });
 })();

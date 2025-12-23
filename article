@@ -22,7 +22,7 @@ AUTHOR
 help_line="Creates a new website article: article <title: spaces allowed>"
 web_desc_line="Creates a new website article"
 
-web_home="$MJNWINROOT/MJN/github/mjnurse.github.io-github-io"
+web_home="../mjnurse-website"
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
    echo "$help_text"
@@ -43,16 +43,18 @@ fi
 params=$*
 
 if [[ "$params" == "" ]]; then
-   echo "Article Title missing"
-   exit
+    echo "Usage: article <title>"
+    echo "Try article -h' for more information"
+    exit
 fi
 
 # Prompt for the section
 
 cd "$web_home" || exit
 if [[ "$section_name" == "" ]]; then
-   find . -type d -print | sed "s/^\.//; /^\/[^A-Z]/d; /images$/d; /All-A/d; /^$/d" \
-      > /tmp/article.tmp
+   find . -type d -print \
+    | sed "/\/\./d; /\/assets/d; /\/images$/d; /\/all/d; /^$/d" \
+    | sort > /tmp/article.tmp
 
    ((section_num = 1))
    echo SECTIONS:
@@ -77,7 +79,7 @@ cd "${web_home}/${section_name}"
 echo "FILES IN SECTION"
 echo "----------------"
 ls | sort -f
-filename=${params// /_}.md
+filename=${{params,,}// /-}.md
 echo ------------------------------
 echo "Folder:   ${section_name}"
 echo "New File: $filename"
@@ -87,7 +89,7 @@ read -rp "Create [yN]: " yn
 if [ "${yn^}" == "Y" ]; then
    echo "---" > "$filename"
    echo "title: ${params}" >> "$filename"
-   echo "layout: page-with-contents-list" >> "$filename"
+   echo "contents-list: h1,h2" >> "$filename"
    echo "---" >> "$filename"
 
    read -rp "Edit in gvim or code [Gc]: " gc

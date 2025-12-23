@@ -16,6 +16,12 @@ AUTHOR
 help_line="Creates a Blog article: blog <title: spaces allowed>"
 web_desc_line="Creates a Blog article"
 
+if [[ "$1" == "" ]]; then
+    echo "Usage: blog <title>"
+    echo "Try blog -h' for more information"
+    exit
+fi
+
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
    echo "$help_text"
    exit
@@ -25,7 +31,7 @@ params=$*
 date_str=$(date +'%y-%m-%d')
 
 filename=${date_str}_-_${params// /_}.md
-file="$MJNWINROOT/MJN/github/mjnurse-github-io/Blog-B/$filename"
+file="/home/martin/mjnurse/mjnurse-website/blog/$filename"
 echo $filename
 
 if [[ -f "$file" ]]; then

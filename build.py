@@ -494,10 +494,11 @@ def build(src='content', out='site', templates_dir='templates'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Build a simple static site from Markdown')
-    parser.add_argument('--src', '-s', default='content', help='Source content directory')
-    parser.add_argument('--out', '-o', default='site', help='Output directory')
+    parser.add_argument('--src', '-s', default='/home/martin/mjnurse/mjnurse-website', help='Source content directory')
+    parser.add_argument('--out', '-o', default='/home/martin/mjnurse/mjnurse.github.io', help='Output directory')
     parser.add_argument('--templates', '-t', default='templates', help='Templates directory')
     args = parser.parse_args()
+    print(args)
     
     # Clean output directory contents before building (preserve directory and .git)
     import shutil
@@ -515,4 +516,5 @@ if __name__ == '__main__':
             except Exception as e:
                 print(f'Warning: Could not delete {item_path}: {e}')
     
+    print(f'Building site: {args.src} -> {args.out}')
     build(args.src, args.out, args.templates)
