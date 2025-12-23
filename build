@@ -1,3 +1,9 @@
 #!/bin/bash
 
+for f in gen*.py; do
+    echo "Running $f"
+    python "$f"
+done
+
+echo "Building site"
 python build.py --src ../mjnurse-website --out ../mjnurse.github.io
