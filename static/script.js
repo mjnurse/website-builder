@@ -12,17 +12,23 @@ document.addEventListener('keydown', function(e) {
 
 	// U = back (scroll to top first, then go back)
 	if (e.key === 'u' || e.key === 'U') {
-		e.preventDefault();
+        e.preventDefault();
 		const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 		// If already at top (within 10px), go back
 		if (scrollPosition <= 10) {
-			window.history.back();
+            window.history.back();
 		} else {
-			// Otherwise scroll to top
+            // Otherwise scroll to top
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
 		return;
 	}
+    
+    // ? = help
+    if (e.key === '?') {
+        window.location.href = '/help.html';
+        return;
+    }
 
 	// Find nav links
 	const navLinks = Array.from(document.querySelectorAll('.nav__list .link--nav'));
