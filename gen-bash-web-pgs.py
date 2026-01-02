@@ -10,7 +10,7 @@ DESCRIPTION
   Creates web pages for bash scripts.
 
 AUTHOR
-  mjnurse.dev - 2020
+  mjnurse.github.io - 2020
 """
 
 import os
