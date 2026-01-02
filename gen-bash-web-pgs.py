@@ -107,7 +107,7 @@ def main():
             with open(filepath, 'r', encoding='utf-8', errors='ignore') as src:
                 out.write(src.read())
             
-            out.write("```\n")
+            out.write("\n```\n")
         
         # Preserve modification time
         mtime = get_file_mtime(filepath)
