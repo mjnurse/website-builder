@@ -5,5 +5,7 @@ for f in gen*.py; do
     python "$f"
 done
 
+sck -m > ../mjnurse-website/other/Shortcut_Keys.md
+
 echo "Building site"
 python build.py --src ../mjnurse-website --out ../mjnurse.github.io
