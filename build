@@ -6,6 +6,7 @@ for f in gen*.py; do
 done
 
 sck -m > ../mjnurse-website/other/Shortcut_Keys.md
+n -m > ../mjnurse-website/notes/Miscellaneous_Notes.md
 
 echo "Building site"
 python build.py --src ../mjnurse-website --out ../mjnurse.github.io
