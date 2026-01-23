@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+help_text="
+NAME
+    check-for-website-updates - Check Local Repositories for uncommitted changes
+
+USAGE
+    check-for-website-updates [options]
+
+OPTIONS
+
+    -h|--help
+        Show help text.
+
+DESCRIPTION
+
+AUTHOR
+    mjnurse.github.io - 2026
+"
+help_line="Check Local Repositories for uncommitted changes"
+web_desc_line="Check Local Repositories for uncommitted changes"
+
+# set -x
+
+# Terminal Colours
+cdef="\e[39m" # default colour
+cbla="\e[30m"; cgra="\e[90m"; clgra="\e[37m"; cwhi="\e[97m"
+cred="\e[31m"; cgre="\e[32m"; cyel="\e[33m" 
+cblu="\e[34m"; cmag="\e[35m"; ccya="\e[36m";
+clred="\e[91m"; clgre="\e[92m"; clyel="\e[93m"
+clblu="\e[94m"; clmag="\e[95m"; clcya="\e[96m"
+
+function cecho {
+    color=c$1; shift
+    echo -e "${!color}$*${cdef}"
+}
+
+try="Try ${0##*/} -h for more information"
+tmp="${help_text##*USAGE}"
+usage=$(echo "Usage: ${tmp%%OPTIONS*}" | tr -d "\n" | sed "s/  */ /g")
+
+push_yn=n
+while [[ "$1" != "" ]]; do
+    case $1 in
+        -h|--help)
+            echo "$help_text"
+            exit
+            ;;
+        ?*)
+            break
+            ;;
+    esac
+    shift
+done
+
+echo
+cecho lgre "Checking local mjnurse-website git repository for uncommitted changes..."
+
+changes_yn=n
+for d in /home/martin/mjnurse/mjnurse-website \
+        ; do
+    cd $d
+    if [[ "$(git status --short)" != "" ]]; then
+        echo -e "${ccya}- Uncommitted changes in repo: ${clcya}$d${cdef}"
+        changes_yn=y
+    fi
+done
+if [[ "$changes_yn" == "n" ]]; then
+    exit 1
+fi
+
+cecho lmag "Run build-website to rebuild the website"
+cd /home/martin/mjnurse/website-builder
+build
