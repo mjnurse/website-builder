@@ -40,7 +40,7 @@ if [[ "$1" == "-s" ]]; then
    shift
 fi
 
-params=$*
+params="$*"
 
 if [[ "$params" == "" ]]; then
     echo "Usage: article <title>"
@@ -79,7 +79,9 @@ cd "${web_home}/${section_name}"
 echo "FILES IN SECTION"
 echo "----------------"
 ls | sort -f
-filename=${{params,,}// /-}.md
+echo $params
+filename="${params,,}"
+filename="${filename// /-}.md"
 echo ------------------------------
 echo "Folder:   ${section_name}"
 echo "New File: $filename"
