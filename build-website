@@ -14,4 +14,4 @@ echo "Building site"
 python build.py --src ../mjnurse-website --out ../mjnurse.github.io
 
 cd /home/martin/mjnurse/website-builder
-push-website
+push-website $1

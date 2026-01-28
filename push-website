@@ -1,14 +1,26 @@
 #!/bin/bash
 
+if [[ "$1" == "-f" ]]; then
+    FORCE_PUSH=true
+else
+    FORCE_PUSH=false
+fi
+
 echo ---------------
 echo website-builder
 echo ---------------
 if [[ -n "$(git status --porcelain)" ]]; then
     git status
-    read -p "Push website-builder changes to GitHub? [yN] " choice
+    if $FORCE_PUSH; then
+        choice="Y"
+    else
+        read -p "Push website-builder changes to GitHub? [yN] " choice
+    fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
-        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if ! $FORCE_PUSH; then
+            read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        fi
         if [[ -z "$commit_message" ]]; then
             commit_message="various"
         fi
@@ -28,10 +40,16 @@ echo mjnurse-website
 echo ---------------
 if [[ -n "$(git status --porcelain)" ]]; then
     git status
-    read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+    if $FORCE_PUSH; then
+        choice="Y"
+    else
+        read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+    fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
-        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if ! $FORCE_PUSH; then
+            read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        fi
         if [[ -z "$commit_message" ]]; then
             commit_message="various"
         fi
@@ -51,10 +69,16 @@ echo mjnurse.github.io
 echo -----------------
 if [[ -n "$(git status --porcelain)" ]]; then
     git status
-    read -p "Push mjnurse.github.io changes to GitHub? [yN] " choice
+    if $FORCE_PUSH; then
+        choice="Y"
+    else
+        read -p "Push mjnurse.github.io changes to GitHub? [yN] " choice
+    fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
-        read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        if ! $FORCE_PUSH; then
+            read -p "Enter commit message (blank defaults to 'various'): " commit_message
+        fi
         if [[ -z "$commit_message" ]]; then
             commit_message="various"
         fi
