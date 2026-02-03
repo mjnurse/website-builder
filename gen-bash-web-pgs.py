@@ -67,7 +67,8 @@ def main():
         try:
             with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
-                if '^web_desc_line' not in content and 'web_desc_line=' not in content:
+                if '^web_desc_line' not in content and 'web_desc_line=' not in content and \
+                   '^WEB_DESC_LINE' not in content and 'WEB_DESC_LINE=' not in content:
                     continue
         except Exception as e:
             print(f"Error reading {filepath}: {e}")
@@ -79,6 +80,9 @@ def main():
             for line in f:
                 if line.startswith('web_desc_line='):
                     dl = extract_value(line, r'web_desc_line=(.+)')
+                    break
+                if line.startswith('WEB_DESC_LINE='):
+                    dl = extract_value(line, r'WEB_DESC_LINE=(.+)')
                     break
         
         if not dl:
