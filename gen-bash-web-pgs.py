@@ -170,7 +170,7 @@ def main():
             out.write("---\n")
             out.write("\n")
             out.write("Packs contain bash scripts which have been compressed and converted to a\n")
-            out.write("base64 string.  This is a convenient wat to copy a set of bash scripts\n")
+            out.write("base64 string.  This is a convenient way to copy a set of bash scripts\n")
             out.write("into a linux environment using only a command line terminal.\n")
             out.write("\n")
             out.write("<script>\n")
