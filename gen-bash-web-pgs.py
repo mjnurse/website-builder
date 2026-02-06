@@ -89,7 +89,7 @@ def main():
             continue
         
         # Create destination filename
-        dest_filename = f"script_{filepath}_-_{dl}.md"
+        dest_filename = f"script-{filepath}.md"
         dest_filename = dest_filename.replace(' ', '_')
         dest_path = os.path.join(output_dir, dest_filename)
         
