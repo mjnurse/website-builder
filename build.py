@@ -313,7 +313,9 @@ def build(src='content', out='site', templates_dir='templates'):
         
         index_path = os.path.join(out, section_url, 'index.html')
         os.makedirs(os.path.dirname(index_path), exist_ok=True)
-        rendered = page_tpl.render(title=section, content=index_content, sections=sections, section_info=section_info, page={'url': f'{section_url}/index.html'})
+        rendered = page_tpl.render(
+            title=section, content=index_content, sections=sections, section_info=section_info, 
+            page={'url': f'{section_url}/index.html', 'last_updated': datetime.now().strftime('%B %d, %Y')})
         with open(index_path, 'w', encoding='utf-8') as fh:
             fh.write(rendered)
         
@@ -356,7 +358,9 @@ def build(src='content', out='site', templates_dir='templates'):
             
             subsec_out_path = os.path.join(out, section_url, subsec_url, 'index.html')
             os.makedirs(os.path.dirname(subsec_out_path), exist_ok=True)
-            rendered = page_tpl.render(title=subsec_name, content=subsec_content, sections=sections, section_info=section_info, page={'url': f'{section_url}/{subsec_url}/index.html'})
+            rendered = page_tpl.render(
+                title=subsec_name, content=subsec_content, sections=sections, section_info=section_info, 
+                page={'url': f'{section_url}/{subsec_url}/index.html', 'last_updated': datetime.now().strftime('%B %d, %Y')})
             with open(subsec_out_path, 'w', encoding='utf-8') as fh:
                 fh.write(rendered)
 
@@ -409,7 +413,8 @@ def build(src='content', out='site', templates_dir='templates'):
     index_content += '</ul>\n'
     
     # Pass flag to indicate if we should hide the hero section
-    page_data = {'url': 'index.html', 'hide_hero': bool(root_intro)}
+    page_data = {'url': 'index.html', 'hide_hero': bool(root_intro), 
+                 'last_updated': datetime.now().strftime('%B %d, %Y')}
     index_html = page_tpl.render(title='Home', content=index_content, sections=sections, section_info=section_info, page=page_data)
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, 'index.html'), 'w', encoding='utf-8') as fh:
