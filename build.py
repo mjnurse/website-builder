@@ -313,9 +313,12 @@ def build(src='content', out='site', templates_dir='templates'):
         
         index_path = os.path.join(out, section_url, 'index.html')
         os.makedirs(os.path.dirname(index_path), exist_ok=True)
+        # Get most recent mtime from all pages in this section (including subsections)
+        section_max_mtime = max(p['mtime'] for p in pages_in_sec) if pages_in_sec else time.time()
+        section_last_updated = datetime.fromtimestamp(section_max_mtime).strftime('%B %d, %Y')
         rendered = page_tpl.render(
             title=section, content=index_content, sections=sections, section_info=section_info, 
-            page={'url': f'{section_url}/index.html', 'last_updated': datetime.now().strftime('%B %d, %Y')})
+            page={'url': f'{section_url}/index.html', 'last_updated': section_last_updated})
         with open(index_path, 'w', encoding='utf-8') as fh:
             fh.write(rendered)
         
@@ -358,9 +361,12 @@ def build(src='content', out='site', templates_dir='templates'):
             
             subsec_out_path = os.path.join(out, section_url, subsec_url, 'index.html')
             os.makedirs(os.path.dirname(subsec_out_path), exist_ok=True)
+            # Get most recent mtime from all pages in this subsection
+            subsec_max_mtime = max(p['mtime'] for p in subsec_pages) if subsec_pages else time.time()
+            subsec_last_updated = datetime.fromtimestamp(subsec_max_mtime).strftime('%B %d, %Y')
             rendered = page_tpl.render(
                 title=subsec_name, content=subsec_content, sections=sections, section_info=section_info, 
-                page={'url': f'{section_url}/{subsec_url}/index.html', 'last_updated': datetime.now().strftime('%B %d, %Y')})
+                page={'url': f'{section_url}/{subsec_url}/index.html', 'last_updated': subsec_last_updated})
             with open(subsec_out_path, 'w', encoding='utf-8') as fh:
                 fh.write(rendered)
 
@@ -413,8 +419,11 @@ def build(src='content', out='site', templates_dir='templates'):
     index_content += '</ul>\n'
     
     # Pass flag to indicate if we should hide the hero section
+    # Get most recent mtime from all pages for the root index
+    root_max_mtime = max(p['mtime'] for p in pages) if pages else time.time()
+    root_last_updated = datetime.fromtimestamp(root_max_mtime).strftime('%B %d, %Y')
     page_data = {'url': 'index.html', 'hide_hero': bool(root_intro), 
-                 'last_updated': datetime.now().strftime('%B %d, %Y')}
+                 'last_updated': root_last_updated}
     index_html = page_tpl.render(title='Home', content=index_content, sections=sections, section_info=section_info, page=page_data)
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, 'index.html'), 'w', encoding='utf-8') as fh:
