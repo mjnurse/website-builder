@@ -70,5 +70,3 @@ if [[ "$changes_yn" == "n" ]]; then
 fi
 
 cecho lmag "Run build-website to rebuild the website"
-cd /home/martin/mjnurse/website-builder
-build
