@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [[ "$1" == "-d" || "$1" == "--daily" ]]; then
+    today=$(date +"%Y-%m-%d")
+    last_day="$(cat /home/martin/mjnurse/website-builder/last_build_date.txt)"
+    if [ "$today" == "$last_day" ]; then
+        echo "Website already built today ($today). Skipping build."
+        exit 0
+    fi
+    echo "$today" > /home/martin/mjnurse/website-builder/last_build_date.txt
+fi
+
 cd /home/martin/mjnurse/website-builder
 
 for f in gen*.py; do
