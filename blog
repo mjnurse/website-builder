@@ -30,7 +30,7 @@ fi
 params=$*
 date_str=$(date +'%y-%m-%d')
 
-filename=${date_str}_-_${params// /_}.md
+filename=${date_str}-${params// /-}.md
 file="/home/martin/mjnurse/mjnurse-website/blog/$filename"
 echo $filename
 
@@ -47,6 +47,7 @@ read -p "Create [yN]: " yn
 if [ "${yn^}" == "Y" ]; then
    echo "---" > "$file"
    echo "title: ${date_str} - ${params}" >> "$file"
+   echo "section: ???" >> "$file"
    echo "---" >> "$file"
    gvim "$file"
 fi
