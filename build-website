@@ -21,7 +21,7 @@ sck -m > ../mjnurse-website/other/Shortcut_Keys.md
 n -m > ../mjnurse-website/notes/Miscellaneous_Notes.md
 
 echo "Building site"
-python build.py --src ../mjnurse-website --out ../mjnurse.github.io
+python build-website.py --src ../mjnurse-website --out ../mjnurse.github.io
 
 cd /home/martin/mjnurse/website-builder
 push-website $1
