@@ -262,9 +262,9 @@ def build(src='content', out='site', templates_dir='templates'):
         regular_pages = []
         script_pages = []
         for p in direct_pages:
-            # Check if the filename (not the title) starts with "script_"
+            # Check if the filename (not the title) starts with "script-"
             filename = os.path.basename(p['path']).lower()
-            if filename.startswith('script_'):
+            if filename.startswith('script-'):
                 script_pages.append(p)
             else:
                 regular_pages.append(p)
