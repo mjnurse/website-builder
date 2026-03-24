@@ -4,9 +4,9 @@ import glob
 from pathlib import Path
 import subprocess
 
-mjnroot = os.path.join("home", "martin", "mjnurse")
+mjnroot = os.path.join("/home", "martin", "mjnurse")
 cli_home = os.path.join(mjnroot, "cli-builder")
-web_base = os.path.join(mjnroot, "mjnurse-website", "other", "cli-builder")
+web_base = os.path.join(mjnroot, "mjnurse-website", "other", "cli_builder")
 
 # Clean up previous files
 for f in glob.glob(os.path.join(web_base, "definition*")):
@@ -14,7 +14,7 @@ for f in glob.glob(os.path.join(web_base, "definition*")):
 for f in glob.glob(os.path.join(web_base, "cli-builder-script*")):
     os.remove(f)
 
-cli_builder_dir = os.path.join(cli_home, "cli-builder")
+cli_builder_dir = os.path.join(mjnroot, "cli-builder")
 os.chdir(cli_builder_dir)
 
 # Generate CLI_Builder_script.md
