@@ -14,7 +14,11 @@ if [[ -n "$(git status --porcelain)" ]]; then
     if $FORCE_PUSH; then
         choice="Y"
     else
-        read -p "Push website-builder changes to GitHub? [yN] " choice
+        read -p "Push website-builder changes to GitHub (d - show changes)? [dyN] " choice
+        if [[ "${choice^}" == "D" ]]; then
+            git diff
+            read -p "Push website-builder changes to GitHub? [yN] " choice
+        fi
     fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
@@ -43,7 +47,11 @@ if [[ -n "$(git status --porcelain)" ]]; then
     if $FORCE_PUSH; then
         choice="Y"
     else
-        read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+        read -p "Push mjnurse-website changes to GitHub (d - show changes)? [dyN] " choice
+        if [[ "${choice^}" == "D" ]]; then
+            git diff
+            read -p "Push mjnurse-website changes to GitHub? [yN] " choice
+        fi
     fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
@@ -72,7 +80,11 @@ if [[ -n "$(git status --porcelain)" ]]; then
     if $FORCE_PUSH; then
         choice="Y"
     else
-        read -p "Push mjnurse.github.io changes to GitHub? [yN] " choice
+        read -p "Push mjnurse.github.io changes to GitHub (d - show changes)? [dyN] " choice
+        if [[ "${choice^}" == "D" ]]; then
+            git diff
+            read -p "Push mjnurse.github.io changes to GitHub? [yN] " choice
+        fi
     fi
     if [[ "${choice^}" == "Y" ]]; then
         git add .
