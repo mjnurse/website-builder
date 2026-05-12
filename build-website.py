@@ -410,7 +410,9 @@ def build(src='content', out='site', templates_dir='templates'):
         tiles_html += '</div>\n\n'
     
     # Sort pages by modification time (newest first), excluding asset/static pages
-    recent_pages = [p for p in pages if p.get('section') and p.get('section').lower() not in {'assets', 'static'}]
+    recent_pages = [p for p in pages  \
+                    if p.get('section') and p.get('section').lower() not in {'assets', 'static'} \
+                    and p.get('url') not in {'notes/miscellaneous_notes.html', 'other/shortcut_keys.html', 'linuxbash/linux_bash_default_pack.html'}]
     recent_pages = sorted(recent_pages, key=lambda p: p['mtime'], reverse=True)[:20]
     
     index_content = root_intro + tiles_html + '\n<h2>Recently Updated</h2>\n<ul class="page-list">\n'
