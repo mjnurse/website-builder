@@ -23,5 +23,8 @@ n -m > ../mjnurse-website/notes/Miscellaneous_Notes.md
 echo "Building site"
 python build-website.py --src ../mjnurse-website --out ../mjnurse.github.io
 
+cd /home/martin/mjnurse/mjnurse.github.io
+/home/martin/mjnurse/website-builder/revert-date-only-changes
+
 cd /home/martin/mjnurse/website-builder
 push-website $1
