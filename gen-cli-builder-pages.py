@@ -21,7 +21,7 @@ os.chdir(cli_builder_dir)
 dest = os.path.join(web_base, "cli-builder-script.md")
 with open(dest, "w") as f:
     f.write("---\n")
-    f.write("title: CLI builder\n")
+    f.write("title: CLI builder Script\n")
     f.write("---\n")
     f.write("\n")
     f.write("This Python script generates a cli (command line interface) bash script from a\n")
@@ -50,23 +50,23 @@ for f_path in glob.glob("*.def"):
 
     with open(dest, "w") as f:
         f.write("---\n")
-        f.write(f"title: {title}\n")
+        f.write(f"title: {title} CLI\n")
         f.write("---\n")
-        f.write(f"# Definition file `{os.path.basename(f_path)}`\n")
+        f.write(f"## Definition file `{os.path.basename(f_path)}`\n")
         f.write("\n")
         f.write("```bash\n")
         with open(f_path, "r") as def_file:
             f.write(def_file.read())
         f.write("```\n")
         f.write("\n")
-        f.write("# Alias file\n")
+        f.write("## Alias file\n")
         f.write("\n")
         f.write("```bash\n")
         with open(f_path.replace(".def", ".alias"), "r") as def_file:
             f.write(def_file.read())
         f.write("```\n")
         f.write("\n")
-        f.write("# Bash script\n")
+        f.write("## Bash script\n")
         f.write("\n")
         f.write("```bash\n")
         with open(f_path.replace(".def", ""), "r") as def_file:
