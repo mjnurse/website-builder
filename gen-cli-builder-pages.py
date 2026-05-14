@@ -50,13 +50,27 @@ for f_path in glob.glob("*.def"):
 
     with open(dest, "w") as f:
         f.write("---\n")
-        f.write(f"title: {os.path.basename(f_path)}\n")
+        f.write(f"title: {title}\n")
         f.write("---\n")
+        f.write(f"# Definition file `{os.path.basename(f_path)}`\n")
         f.write("\n")
         f.write("```bash\n")
         with open(f_path, "r") as def_file:
             f.write(def_file.read())
+        f.write("```\n")
         f.write("\n")
+        f.write("# Alias file\n")
+        f.write("\n")
+        f.write("```bash\n")
+        with open(f_path.replace(".def", ".alias"), "r") as def_file:
+            f.write(def_file.read())
+        f.write("```\n")
+        f.write("\n")
+        f.write("# Bash script\n")
+        f.write("\n")
+        f.write("```bash\n")
+        with open(f_path.replace(".def", ""), "r") as def_file:
+            f.write(def_file.read())
         f.write("```\n")
 
     f_stat = os.stat(f_path)
