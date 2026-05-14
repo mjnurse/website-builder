@@ -24,7 +24,7 @@ with open(dest, "w") as f:
     f.write("title: CLI builder\n")
     f.write("---\n")
     f.write("\n")
-    f.write("This bash script generates a cli (command line interface) bash script from a\n")
+    f.write("This Python script generates a cli (command line interface) bash script from a\n")
     f.write("definition file.  The structure of the definition file is code header below. \n")
     f.write("This script also generates an alias file which contains a set of alias\n")
     f.write("commands which run each command in the definition file using the associated\n")
