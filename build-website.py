@@ -304,7 +304,7 @@ def build(src='content', out='site', templates_dir='templates'):
                 date_html = ''
                 if item['type'] == 'page' and 'mtime' in item:
                     date_str = datetime.fromtimestamp(item['mtime']).strftime('%d/%m/%y')
-                    date_html = f' <span class="page-date">({date_str})</span>'
+                    date_html = f' <span class="page-date">- {date_str}</span>'
                 index_content += f'  <li><a href="{item["url"]}" data-number="{i}"><span class="page-number">{i}</span>{item["title"].replace("_", " ")}{date_html}{icon_html}</a></li>\n'
             index_content += '</ul>\n'
         
@@ -315,7 +315,7 @@ def build(src='content', out='site', templates_dir='templates'):
             start_num = len(all_items) + 1
             for i, p in enumerate(script_pages, start_num):
                 date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
-                date_html = f' <span class="page-date">({date_str})</span>'
+                date_html = f' <span class="page-date">- {date_str}</span>'
                 index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
             index_content += '</ul>\n'
         
@@ -356,7 +356,7 @@ def build(src='content', out='site', templates_dir='templates'):
             subsec_content = f'<h1>{subsec_name.replace("_", " ")}</h1>\n' + subsec_intro + '\n<ul class="page-list">\n'
             for i, p in enumerate(subsec_regular, 1):
                 date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
-                date_html = f' <span class="page-date">({date_str})</span>'
+                date_html = f' <span class="page-date">- {date_str}</span>'
                 subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
             subsec_content += '</ul>\n'
             
@@ -367,7 +367,7 @@ def build(src='content', out='site', templates_dir='templates'):
                 start_num = len(subsec_regular) + 1
                 for i, p in enumerate(subsec_scripts, start_num):
                     date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
-                    date_html = f' <span class="page-date">({date_str})</span>'
+                    date_html = f' <span class="page-date">- {date_str}</span>'
                     subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
                 subsec_content += '</ul>\n'
             
@@ -430,7 +430,7 @@ def build(src='content', out='site', templates_dir='templates'):
     index_content = root_intro + tiles_html + '\n<h2>Recently Updated</h2>\n<ul class="page-list">\n'
     for i, p in enumerate(recent_pages, 1):
         date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
-        date_html = f' <span class="page-date">({date_str})</span>'
+        date_html = f' <span class="page-date">- {date_str}</span>'
         index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
     index_content += '</ul>\n'
     
