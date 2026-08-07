@@ -291,7 +291,8 @@ def build(src='content', out='site', templates_dir='templates'):
             all_items.append({
                 'type': 'page',
                 'url': f'/{p["url"]}',
-                'title': p['title']
+                'title': p['title'],
+                'mtime': p['mtime']
             })
         
         # Render as numbered list with subsection indicators
@@ -299,7 +300,12 @@ def build(src='content', out='site', templates_dir='templates'):
             index_content += '\n<ul class="page-list">\n'
             for i, item in enumerate(all_items, 1):
                 icon_html = '&nbsp;&nbsp;<span class="subsection-icon">📁</span>' if item['type'] == 'subsection' else ''
-                index_content += f'  <li><a href="{item["url"]}" data-number="{i}"><span class="page-number">{i}</span>{item["title"].replace("_", " ")}{icon_html}</a></li>\n'
+                # Add date for regular pages
+                date_html = ''
+                if item['type'] == 'page' and 'mtime' in item:
+                    date_str = datetime.fromtimestamp(item['mtime']).strftime('%d/%m/%y')
+                    date_html = f' <span class="page-date">({date_str})</span>'
+                index_content += f'  <li><a href="{item["url"]}" data-number="{i}"><span class="page-number">{i}</span>{item["title"].replace("_", " ")}{date_html}{icon_html}</a></li>\n'
             index_content += '</ul>\n'
         
         # Add Scripts section if there are script pages
@@ -308,7 +314,9 @@ def build(src='content', out='site', templates_dir='templates'):
             # Continue numbering from where regular items left off
             start_num = len(all_items) + 1
             for i, p in enumerate(script_pages, start_num):
-                index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
+                date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
+                date_html = f' <span class="page-date">({date_str})</span>'
+                index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
             index_content += '</ul>\n'
         
         index_path = os.path.join(out, section_url, 'index.html')
@@ -347,7 +355,9 @@ def build(src='content', out='site', templates_dir='templates'):
             
             subsec_content = f'<h1>{subsec_name.replace("_", " ")}</h1>\n' + subsec_intro + '\n<ul class="page-list">\n'
             for i, p in enumerate(subsec_regular, 1):
-                subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
+                date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
+                date_html = f' <span class="page-date">({date_str})</span>'
+                subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
             subsec_content += '</ul>\n'
             
             # Add Scripts section if there are script pages in subsection
@@ -356,7 +366,9 @@ def build(src='content', out='site', templates_dir='templates'):
                 # Continue numbering from where regular pages left off
                 start_num = len(subsec_regular) + 1
                 for i, p in enumerate(subsec_scripts, start_num):
-                    subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
+                    date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
+                    date_html = f' <span class="page-date">({date_str})</span>'
+                    subsec_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
                 subsec_content += '</ul>\n'
             
             subsec_out_path = os.path.join(out, section_url, subsec_url, 'index.html')
@@ -417,7 +429,9 @@ def build(src='content', out='site', templates_dir='templates'):
     
     index_content = root_intro + tiles_html + '\n<h2>Recently Updated</h2>\n<ul class="page-list">\n'
     for i, p in enumerate(recent_pages, 1):
-        index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}</a></li>\n'
+        date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
+        date_html = f' <span class="page-date">({date_str})</span>'
+        index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{p["title"]}{date_html}</a></li>\n'
     index_content += '</ul>\n'
     
     # Pass flag to indicate if we should hide the hero section

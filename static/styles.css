@@ -488,6 +488,19 @@ main {
   color: var(--clr-bg);
 }
 
+.page-list .page-date {
+  font-size: 0.75em;
+  color: var(--clr-fg-alt);
+  opacity: 0.6;
+  margin-left: 0.5em;
+}
+
+.page-list:not(.keyboard-nav-active) a:hover .page-date,
+.page-list a.highlighted .page-date {
+  color: var(--clr-bg);
+  opacity: 0.8;
+}
+
 /*==========
   tiles
 ==========*/
