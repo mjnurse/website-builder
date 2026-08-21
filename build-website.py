@@ -316,7 +316,7 @@ def build(src='content', out='site', templates_dir='templates'):
             for i, p in enumerate(script_pages, start_num):
                 date_str = datetime.fromtimestamp(p['mtime']).strftime('%d/%m/%y')
                 date_html = f' <span class="page-date">- {date_str}</span>'
-                title = re.sub(r'^(\S+)', r'<b>\1</b> ', p["title"])
+                title = re.sub(r'^([^ ]+)', r'<b>\1</b>', p["title"])
                 index_content += f'  <li><a href="/{p["url"]}" data-number="{i}"><span class="page-number">{i}</span>{title}{date_html}</a></li>\n'
             index_content += '</ul>\n'
         
