@@ -47,7 +47,7 @@ def main():
     bash_dir = '../bash'
     
     # Remove existing Script* files
-    for f in glob.glob(os.path.join(output_dir, 'script_*')):
+    for f in glob.glob(os.path.join(output_dir, 'script-*')):
         os.remove(f)
         print(f"Removed: {f}")
     
