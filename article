@@ -4,7 +4,7 @@ NAME
   article - Creates a new article
 
 USAGE
-  article <Article Title - Words with spaces>
+  article <article title - words with spaces>
 
 OPTIONS
   -h|--help
@@ -22,7 +22,7 @@ AUTHOR
 help_line="Creates a new website article: article <title: spaces allowed>"
 web_desc_line="Creates a new website article"
 
-web_home="../mjnurse-website"
+web_home="/home/martin/mjnurse/mjnurse-website"
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
    echo "$help_text"
