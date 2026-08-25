@@ -286,8 +286,14 @@ def build(src='content', out='site', templates_dir='templates'):
                 'title': subsec_name
             })
         
+        # Sort regular pages - reverse alphabetical for blog section, normal for others
+        if section.lower().replace(' ', '-') == 'blog':
+            sorted_pages = sorted(regular_pages, key=lambda p: p['title'], reverse=True)
+        else:
+            sorted_pages = regular_pages
+
         # Add regular pages
-        for p in regular_pages:
+        for p in sorted_pages:
             all_items.append({
                 'type': 'page',
                 'url': f'/{p["url"]}',
