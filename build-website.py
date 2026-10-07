@@ -210,7 +210,7 @@ def build(src='content', out='site', templates_dir='templates'):
         
         # Add title as h1 at the top if it's from frontmatter
         if 'title' in fm:
-            html = f'<h1><a href="#" data-clipboard="{p["path"].replace("..", "code ~/mjnurse")}">{fm["title"]}</a></h1>\n' + html
+            html = f'<h1><a class="link" href="#" data-clipboard="{p["path"].replace("..", "code ~/mjnurse")}">{fm["title"]}</a></h1>\n' + html
         
         # Insert TOC after title if requested
         if toc_html:
@@ -457,14 +457,16 @@ def build(src='content', out='site', templates_dir='templates'):
         fh.write('')
 
     # copy static
-    static_src = os.path.join(os.path.dirname(templates_dir), 'static')
-    static_src = os.path.normpath(static_src)
+    static_src = os.path.normpath(os.path.join(src, 'static'))
     if os.path.isdir(static_src):
         import shutil
         dst = os.path.join(out, 'static')
         if os.path.isdir(dst):
             shutil.rmtree(dst)
         shutil.copytree(static_src, dst)
+        print(f'Copied static: {static_src} -> {dst}')
+    else:
+        print(f'Warning: Static directory not found at {static_src}')
 
     # copy favicon
     import shutil
