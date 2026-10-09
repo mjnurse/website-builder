@@ -112,7 +112,7 @@ def main():
                 demo_path = f"{os.path.splitext(filepath)[0]}.html"
             if os.path.isfile(demo_path) and demo_path != filepath:
                 out.write("## Demo\n")
-                out.write("<br>\n")
+                out.write("\n")
                 with open(demo_path, 'r', encoding='utf-8', errors='ignore') as demo:
                     out.write(demo.read())
                 out.write("\n\n")
