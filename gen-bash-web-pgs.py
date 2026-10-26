@@ -102,7 +102,7 @@ def main():
         # Create markdown file
         with open(dest_path, 'w', encoding='utf-8') as out:
             out.write("---\n")
-            out.write(f"title: {filepath} - {dl}\n")
+            out.write(f"title: {filepath}: {dl}\n")
             out.write("---\n")
             out.write("\n")
 
