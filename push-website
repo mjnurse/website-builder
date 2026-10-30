@@ -6,11 +6,20 @@ else
     FORCE_PUSH=false
 fi
 
-echo ---------------
-echo website-builder
-echo ---------------
-for d in ~/mjnurse/website-builder ~/mjnurse/mjnurse-website ~/mjnurse/mjnurse.github.io; do
-    cd "$d" || exit
+echo "===================================="
+echo "Pushing website changes to GitHub..."
+echo "===================================="
+echo
+for d in website-builder mjnurse-website mjnurse.github.io; do
+
+    echo "${d//?/-}"
+    echo "$d"
+    echo "${d//?/-}"
+    if [[ ! -d ~/mjnurse/$d ]]; then
+        echo "Directory ~/mjnurse/$d does not exist."
+        continue
+    fi
+    cd ~/mjnurse/$d
     commit_message=""
     git fetch
     if [[ -n "$(git status --porcelain)" ]]; then
@@ -21,6 +30,7 @@ for d in ~/mjnurse/website-builder ~/mjnurse/mjnurse-website ~/mjnurse/mjnurse.g
             choice=""
             while [[ "$choice" == "" ]]; do
                 read -p "Push changes to GitHub ([d]iff - show changes, specify commit message [c])? [dycN] " choice
+                choice="${choice:-N}"
                 if [[ "${choice^}" == "D" ]]; then
                     git diff
                     choice=""
