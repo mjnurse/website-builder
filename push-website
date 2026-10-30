@@ -9,95 +9,35 @@ fi
 echo ---------------
 echo website-builder
 echo ---------------
-if [[ -n "$(git status --porcelain)" ]]; then
-    git status
-    if $FORCE_PUSH; then
-        choice="Y"
+for d in ~/mjnurse/website-builder ~/mjnurse/mjnurse-website ~/mjnurse/mjnurse.github.io; do
+    cd "$d" || exit
+    commit_message=""
+    git fetch
+    if [[ -n "$(git status --porcelain)" ]]; then
+        git status
+        if $FORCE_PUSH; then
+            choice="Y"
+        else
+            choice=""
+            while [[ "$choice" == "" ]]; do
+                read -p "Push changes to GitHub ([d]iff - show changes, specify commit message [c])? [dycN] " choice
+                if [[ "${choice^}" == "D" ]]; then
+                    git diff
+                    choice=""
+                elif [[ "${choice^}" == "C" ]]; then
+                    read -p "Enter commit message (blank defaults to 'various'): " commit_message
+                    choice="Y"
+                fi
+            done
+        fi
+        if [[ "${choice^}" == "Y" ]]; then
+            git add .
+            git commit -m "${commit_message:-various}"
+            git pull --rebase
+            git push origin main
+            echo "Changes pushed to GitHub."
+        fi
     else
-        read -p "Push website-builder changes to GitHub (d - show changes)? [dyN] " choice
-        if [[ "${choice^}" == "D" ]]; then
-            git diff
-            read -p "Push website-builder changes to GitHub? [yN] " choice
-        fi
+        echo "No changes to push."
     fi
-    if [[ "${choice^}" == "Y" ]]; then
-        git add .
-        if ! $FORCE_PUSH; then
-            read -p "Enter commit message (blank defaults to 'various'): " commit_message
-        fi
-        if [[ -z "$commit_message" ]]; then
-            commit_message="various"
-        fi
-        git commit -m "$commit_message"
-        git push origin main
-        echo "Changes pushed to GitHub."
-    fi
-else
-    echo "No changes to push."
-fi
-
-cd ../mjnurse-website || exit
-
-echo
-echo ---------------
-echo mjnurse-website
-echo ---------------
-if [[ -n "$(git status --porcelain)" ]]; then
-    git status
-    if $FORCE_PUSH; then
-        choice="Y"
-    else
-        read -p "Push mjnurse-website changes to GitHub (d - show changes)? [dyN] " choice
-        if [[ "${choice^}" == "D" ]]; then
-            git diff
-            read -p "Push mjnurse-website changes to GitHub? [yN] " choice
-        fi
-    fi
-    if [[ "${choice^}" == "Y" ]]; then
-        git add .
-        if ! $FORCE_PUSH; then
-            read -p "Enter commit message (blank defaults to 'various'): " commit_message
-        fi
-        if [[ -z "$commit_message" ]]; then
-            commit_message="various"
-        fi
-        git commit -m "$commit_message"
-        git push origin main
-        echo "Changes pushed to GitHub."
-    fi
-else
-    echo "No changes to push."
-fi
-
-cd ../mjnurse.github.io || exit
-
-echo
-echo -----------------
-echo mjnurse.github.io
-echo -----------------
-if [[ -n "$(git status --porcelain)" ]]; then
-    git status
-    if $FORCE_PUSH; then
-        choice="Y"
-    else
-        read -p "Push mjnurse.github.io changes to GitHub (d - show changes)? [dyN] " choice
-        if [[ "${choice^}" == "D" ]]; then
-            git diff
-            read -p "Push mjnurse.github.io changes to GitHub? [yN] " choice
-        fi
-    fi
-    if [[ "${choice^}" == "Y" ]]; then
-        git add .
-        if ! $FORCE_PUSH; then
-            read -p "Enter commit message (blank defaults to 'various'): " commit_message
-        fi
-        if [[ -z "$commit_message" ]]; then
-            commit_message="various"
-        fi
-        git commit -m "$commit_message"
-        git push origin main
-        echo "Changes pushed to GitHub."
-    fi
-else
-    echo "No changes to push."
-fi
+done
