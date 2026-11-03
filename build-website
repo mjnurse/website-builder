@@ -2,19 +2,19 @@
 
 if [[ "$1" == "-d" || "$1" == "--daily" ]]; then
     today=$(date +"%Y-%m-%d")
-    last_day="$(cat /home/martin/.local/state/website-last_build_date.txt)"
+    last_day="$(cat $HOME/.local/state/website-last_build_date.txt 2>/dev/null)"
     if [ "$today" == "$last_day" ]; then
         echo "Website already built today ($today). Skipping build."
         exit 0
     fi
-    echo "$today" > /home/martin/.local/state/website-last_build_date.txt
+    echo "$today" > $HOME/.local/state/website-last_build_date.txt
 fi
 
-cd /home/martin/mjnurse/website-builder
+cd $HOME/mjnurse/website-builder
 
 for f in gen*.py; do
     echo "Running $f"
-    python "$f"
+    python3 "$f"
 done
 
 sck -m > ../mjnurse-website/other/shortcut_keys.md
@@ -22,11 +22,11 @@ n -m > ../mjnurse-website/notes/miscellaneous_notes.md
 
 echo "Building site"
 
-cp /home/martin/mjnurse/mjnurse-website/static/* /home/martin/mjnurse/mjnurse.github.io/static
-python build-website.py --src ../mjnurse-website --out ../mjnurse.github.io
+cp $HOME/mjnurse/mjnurse-website/static/* $HOME/mjnurse/mjnurse.github.io/static
+python3 build-website.py --src ../mjnurse-website --out ../mjnurse.github.io
 
-cd /home/martin/mjnurse/mjnurse.github.io
-/home/martin/mjnurse/website-builder/revert-date-only-changes
+cd $HOME/mjnurse/mjnurse.github.io
+$HOME/mjnurse/website-builder/revert-date-only-changes
 
-cd /home/martin/mjnurse/website-builder
+cd $HOME/mjnurse/website-builder
 push-website $1
