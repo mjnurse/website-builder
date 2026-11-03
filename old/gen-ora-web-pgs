@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 help_text="
 NAME
   gen_ora_web_pgs - Creates web pages for Oracle scripts

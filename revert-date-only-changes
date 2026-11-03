@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 for file in $(git diff --name-only); do
+
   diff_output=$(git diff -U0 "$file" | grep '^[+-]' | grep -v '^[+-][+-][+-]')
   removed=$(echo "$diff_output" | grep '^-' || true)
   added=$(echo "$diff_output" | grep '^+' || true)
@@ -8,8 +9,8 @@ for file in $(git diff --name-only); do
   if [ "$(echo "$removed" | wc -l)" -eq 1 ] && [ "$(echo "$added" | wc -l)" -eq 1 ]; then
     removed_clean=$(echo "$removed" | sed 's/^-//')
     added_clean=$(echo "$added" | sed 's/^+//')
-    if echo "$removed_clean" | grep -qP '^\s*<p>Last updated: .+</p>\s*$' &&
-       echo "$added_clean" | grep -qP '^\s*<p>Last updated: .+</p>\s*$'; then
+    if echo "$removed_clean" | grep -qE '^[[:space:]]*<p>Last updated: .+</p>[[:space:]]*$' &&
+       echo "$added_clean" | grep -qE '^[[:space:]]*<p>Last updated: .+</p>[[:space:]]*$'; then
       echo "Reverting: $file"
       git checkout -- "$file"
     fi

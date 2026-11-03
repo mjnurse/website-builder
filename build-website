@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ "$1" == "-d" || "$1" == "--daily" ]]; then
     today=$(date +"%Y-%m-%d")
@@ -11,6 +11,7 @@ if [[ "$1" == "-d" || "$1" == "--daily" ]]; then
 fi
 
 cd $HOME/mjnurse/website-builder
+source .venv/bin/activate
 
 for f in gen*.py; do
     echo "Running $f"
@@ -23,7 +24,7 @@ n -m > ../mjnurse-website/notes/miscellaneous_notes.md
 echo "Building site"
 
 cp $HOME/mjnurse/mjnurse-website/static/* $HOME/mjnurse/mjnurse.github.io/static
-python3 build-website.py --src ../mjnurse-website --out ../mjnurse.github.io
+python3 build-website.py --src ../mjnurse-website --out ../mjnurse.github.io || exit 1
 
 cd $HOME/mjnurse/mjnurse.github.io
 $HOME/mjnurse/website-builder/revert-date-only-changes

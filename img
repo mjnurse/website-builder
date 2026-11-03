@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 help_text="
 NAME
   img - Copy an image into my website folder structure
