@@ -43,9 +43,15 @@ for d in website-builder mjnurse-website mjnurse.github.io; do
         if [[ "${choice^}" == "Y" ]]; then
             git add .
             git commit -m "${commit_message:-various}"
-            git pull --rebase
-            git push origin main
-            echo "Changes pushed to GitHub."
+            if ! git pull --rebase origin main; then
+                echo "ERROR: 'git pull --rebase' failed (conflicts?) - resolve in ~/mjnurse/$d, then re-run."
+                continue
+            fi
+            if git push origin main; then
+                echo "Changes pushed to GitHub."
+            else
+                echo "ERROR: 'git push' failed - changes NOT pushed."
+            fi
         fi
     else
         echo "No changes to push."
